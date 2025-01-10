@@ -1,0 +1,33 @@
+{
+  "users": [
+    {
+      "id": "055a",
+      "name": "Patrizio Tardiolo Bonifazi",
+      "username": "patrita63",
+      "email": "p.tardiolobonifazi@vivasoft.it",
+      "phone": "3482350751"
+    },
+    {
+      "id": "e3b6",
+      "name": "Mario Rossi",
+      "username": "mrossi",
+      "email": "mrossi@contoso.com",
+      "phone": "1312847"
+    },
+    {
+      "id": "d867",
+      "name": "diego de la vegas zorro",
+      "username": "zorro",
+      "email": "zorro@zorro.com",
+      "phone": "1234567"
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "Iphone",
+      "model": "12",
+      "cost": "1,000.00"
+    }
+  ]
+}
