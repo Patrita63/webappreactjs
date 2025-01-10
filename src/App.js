@@ -14,6 +14,9 @@ import EditUser from './components/EditUser';
 import UserDataGrid from './Table/UserDataGrid';
 import PostDataGrid from './Table/PostDataGrid';
 
+import Login from './auth/login';
+import Logout from './auth/logout';
+import Register from './register';
 
 function App() {
   const [configJson, setConfigJson] = useState(null);
@@ -41,6 +44,9 @@ function App() {
         <Route path="/EditUser/:id" element={<EditUser />}></Route>
         <Route path="/UsersFromTypicodePagination" element={<UserDataGrid /> } />
         <Route path="/PostsFromTypicodePagination" element={<PostDataGrid /> } />
+        <Route path="/auth/Login" element={<Login /> } />
+        <Route path="/auth/Logout" element={<Logout /> } />
+        <Route path="/Register" element={<Register /> } />
       </Routes>
     </BrowserRouter>
   );

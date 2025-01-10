@@ -1,4 +1,23 @@
 {
+  "registeredUsers": [
+    {
+      "id": "8463",
+      "name": "Patrizio Tardiolo Bonifazi",
+      "surname": "patrita63",
+      "email": "p.tardiolobonifazi@vivasoft.it",
+      "password": "Viva",
+      "address": "Via Roma"
+    },
+    {
+      "id": "b649",
+      "Name": "Patrizio",
+      "Surname": "Tardiolo Bonifazi",
+      "Email": "p.tardiolobonifazi1@vivasoft.it",
+      "Password": "Viva",
+      "ConfirmPassword": "Viva",
+      "Address": "Via Copenaghen 10 1b"
+    }
+  ],
   "users": [
     {
       "id": "055a",
