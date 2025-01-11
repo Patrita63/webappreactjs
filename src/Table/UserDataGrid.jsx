@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Stack, Box, Button } from '@mui/material';
 
-import { getTypicodeUsers } from '../service/typicodeapi';
+import { getTypicodeUsers, getTypicodeUsersPagination } from '../service/typicodeapi';
 
 // You can centralize the environment variables in a configuration file for better management.
 // Read from config.js that must be inside src folder
@@ -11,19 +11,71 @@ import config from '../config';
 const UserDataGrid = () => {
     const [rows, setRows] = useState([]); // Data for rows
 
+    // PAGINATION
+    const [loading, setLoading] = useState(false); // Loading state
+    // Material UI DataGrid has updated its pagination API in recent versions. The event handlers onPageChange and onPageSizeChange have been deprecated 
+    // and replaced with a unified paginationModel prop and onPaginationModelChange handler.
+    /* const [page, setPage] = useState(0); // Current page
+    const [pageSize, setPageSize] = useState(5); // Number of rows per page */
+    const [paginationModel, setPaginationModel] = useState({
+        page: 0,
+        pageSize: 5,
+    }); // Initialize pagination model
+    const [rowCount, setRowCount] = useState(0); // Total row count (for pagination)
+
+
+    // useEffect(() => {
+    //     handleGetAllUsers();
+    // }, []);
+
+    // const handleGetAllUsers = async () => {
+    //     let response = await getTypicodeUsers();
+    //     debugger;
+    //     console.log(response.data);
+    //     // setRows(response.data);
+
+    //     // Flatten JSON structure for DataGrid
+    //     const formattedData = response.data.map((item) => ({
+    //         id: item.id,
+    //         name: item.name,
+    //         username: item.username,
+    //         email: item.email,
+    //         street: item.address.street,
+    //         city: item.address.city,
+    //         zipcode: item.address.zipcode,
+    //         lat: item.address.geo.lat,
+    //         lng: item.address.geo.lng,
+    //         phone: item.phone,
+    //         website: item.website,
+    //         company: item.company.name,
+    //     }));
+    //     setRows(formattedData);
+    //     console.log('Id: ' + response.data[0].id);
+    // }
+
+    // Pagination
     useEffect(() => {
-        handleGetAllUsers();
-
-    }, []);
-
-    const handleGetAllUsers = async () => {
-        let response = await getTypicodeUsers();
         debugger;
-        console.log(response.data);
-        // setRows(response.data);
+        getUserTypicode(paginationModel.page, paginationModel.pageSize);
+    }, [paginationModel]);
 
-        // Flatten JSON structure for DataGrid
-        const formattedData = response.data.map((item) => ({
+    // Pagination
+    const getUserTypicode = async (currentPage, currentPageSize) => {
+        console.log('getUserTypicode: CurrentPage = ' + currentPage + ' - CurrentPageSize = ' + currentPageSize);
+        setLoading(true); // Set loading state
+        try {
+            debugger;
+            let response = await getTypicodeUsersPagination(currentPage, currentPageSize);
+           
+            console.log(response);
+            
+            // Mock pagination using slicing (since this API doesn't support server-side pagination)
+            const start = currentPage * currentPageSize;
+            const end = start + currentPageSize;
+            const paginatedData = response.data.slice(start, end);
+            
+            // Flatten JSON structure for DataGrid
+            const formattedData = paginatedData.map((item) => ({
             id: item.id,
             name: item.name,
             username: item.username,
@@ -36,10 +88,18 @@ const UserDataGrid = () => {
             phone: item.phone,
             website: item.website,
             company: item.company.name,
-        }));
-        setRows(formattedData);
-        console.log('Id: ' + response.data[0].id);
-    }
+            }));
+            console.log(formattedData);
+            setRows(formattedData);
+            setRowCount(response.data.length); // Total number of rows for pagination
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoading(false); // End loading state
+        }
+    };
+    // console.log(tableData);
+    console.log(rows);
 
     // Define columns for the DataGrid
     const columns = [
@@ -65,7 +125,7 @@ const UserDataGrid = () => {
               <p>API URL: {config.apiUrlTypicode} - Environment: {config.environment}</p>
         </Stack>
 
-        {!rows && (
+        {/* {!rows && (
         <Button
             variant="contained"
             color="primary"
@@ -73,20 +133,20 @@ const UserDataGrid = () => {
         >
             Get all users
         </Button>
-        )}
+        )} */}
 
         <Box sx={{ height: 500, width: '100%' }}>
             <h2>User Data without Pagination</h2>
             <DataGrid
                 rows={rows}
                 columns={columns}
-                // loading={loading}
-                pagination
+                loading={loading}
+                // pageSize={pageSize} // Current page size
+                rowCount={rowCount}
                 paginationMode="server"
-                // rowCount={rowCount}
-                // paginationModel={paginationModel}
-                // onPaginationModelChange={(newModel) => setPaginationModel(newModel)}
-                pageSizeOptions={[5, 10, 20, 50, 100]}
+                paginationModel={paginationModel}
+                onPaginationModelChange={(newModel) => setPaginationModel(newModel)}
+                pageSizeOptions={[5, 10, 20, 50, 100]} // Include the desired page sizes
                 checkboxSelection
             />
         </Box>
