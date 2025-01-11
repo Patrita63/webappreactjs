@@ -40,7 +40,7 @@ const NavBar = () => {
     };
     
     const handleMenuClose = () => {
-    setAnchorEl(null);
+        setAnchorEl(null);
     };
     
     const handleLogin = () => {
@@ -82,7 +82,7 @@ const NavBar = () => {
                 <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                Corso ReactJS
+                Corso ReactJS WebApp
                 </Typography>
                                 
                 {isAuthenticated && (

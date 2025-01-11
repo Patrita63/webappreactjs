@@ -39,6 +39,13 @@
       "username": "zorro",
       "email": "zorro@zorro.com",
       "phone": "1234567"
+    },
+    {
+      "id": "aa55",
+      "name": "Giovanni Bianchi",
+      "username": "Bianchi",
+      "email": "gbianchi@acme.com",
+      "phone": "1233445"
     }
   ],
   "products": [

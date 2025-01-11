@@ -4,9 +4,11 @@ import React, { useState, useEffect } from 'react';
 import { getUsers, deleteUser } from '../service/api'; 
 import { Link } from 'react-router-dom';
 
+import Cookies from "js-cookie";
+
 const StyledTable = styled(Table)`
     width: 80%;
-    margin: 50px auto 0 auto;
+    margin: 20px auto 0 auto;
 `;
 
 const THead = styled(TableRow)`
@@ -68,82 +70,106 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, recordName }) => 
 };
 
 const AllUsers = () => {
-    const [listUsers, setListUsers] = useState([]);
+  const [listUsers, setListUsers] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState(null);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState('');
 
-    const [selectedRecord, setSelectedRecord] = useState(null);
+  // Stops Checking When Component Unmounts (clearInterval)
+  useEffect(() => {
+    getUserDetails();
 
-    useEffect(() => {
-        getUserDetails();
-    }, []);
-
-    const getUserDetails = async () => {
-        let response = await getUsers();
-        /* debugger;
-        console.log(response); */
-        setListUsers(response.data);
+    const checkAuth = () => {
+        const auth = Cookies.get("isAuthenticated") === "true"; // Convert to boolean
+        const user = Cookies.get("username");
+        setIsAuthenticated(auth);
+        setUsername(user || "");
     };
 
-    const deleteUserData = async (id) => {
-        await deleteUser(id);
-        getUserDetails();
-    };
+    checkAuth(); // Run once when component mounts
 
-    const handleDeleteClick = (record) => {
-        setSelectedRecord(record);
-        setIsModalOpen(true);
-    }
+    const interval = setInterval(checkAuth, 1000); // Check cookies every second
 
-    const handleConfirmDelete = () => {
-        setIsModalOpen(false);
-        deleteUserData(selectedRecord?.id);
-        console.log(`Record ${selectedRecord} deleted`);
-        setSelectedRecord(null);
-    }
+    return () => clearInterval(interval); // Cleanup on unmount
+    
+  }, []);
 
-    return (
-        <>
-            <StyledTable>
-                <TableHead>
-                    <THead>
-                        <TableCell>Id</TableCell>
-                        <TableCell>Name</TableCell>
-                        <TableCell>UserName</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Phone</TableCell>
-                        <TableCell>#</TableCell>
-                    </THead>
-                </TableHead>
-                <TableBody>
-                    {
-                        listUsers.map(user => (
-                            <TBody key={user.id}>
-                                <TableCell>{user.id}</TableCell>
-                                <TableCell>{user.name}</TableCell>
-                                <TableCell>{user.username}</TableCell>
-                                <TableCell>{user.email}</TableCell>
-                                <TableCell>{user.phone}</TableCell>
-                                <TableCell>
-                                    <Button variant="contained" style={{marginRight: 10}} component={Link} to={`/EditUser/${user.id}`} >Edit</Button>
-                                    {/* <Button variant="contained" color="error" onClick={() => deleteUserData(user.id)} >Delete</Button> */}
-                                    <Button variant="contained" color="error" onClick={() => handleDeleteClick(user)} >Delete</Button>
-                                </TableCell>
-                            </TBody>
-                        ))
-                    }
-                </TableBody>
-            </StyledTable>
+  const getUserDetails = async () => {
+      let response = await getUsers();
+      /* debugger;
+      console.log(response); */
+      setListUsers(response.data);
+  };
 
-            <DeleteConfirmationModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onConfirm={handleConfirmDelete}
-                recordName={`Id: ${selectedRecord?.id} with email: ${selectedRecord?.email}`}
-            /> 
+  const deleteUserData = async (id) => {
+      await deleteUser(id);
+      getUserDetails();
+  };
 
-        </>
-    );
+  const handleDeleteClick = (record) => {
+      setSelectedRecord(record);
+      setIsModalOpen(true);
+  }
+
+  const handleConfirmDelete = () => {
+      setIsModalOpen(false);
+      deleteUserData(selectedRecord?.id);
+      console.log(`Record ${selectedRecord} deleted`);
+      setSelectedRecord(null);
+  }
+
+  return (
+    <>
+      {isAuthenticated && (
+        <Button variant="contained" style={{marginLeft: 150, marginTop:20}} component={Link} to={`/AddUser`} >Add User</Button>
+      )}
+      {isAuthenticated && (
+        <StyledTable>
+            <TableHead>
+                <THead>
+                    <TableCell>Id</TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell>UserName</TableCell>
+                    <TableCell>Email</TableCell>
+                    <TableCell>Phone</TableCell>
+                    <TableCell>#</TableCell>
+                </THead>
+            </TableHead>
+            <TableBody>
+                {
+                    listUsers.map(user => (
+                        <TBody key={user.id}>
+                            <TableCell>{user.id}</TableCell>
+                            <TableCell>{user.name}</TableCell>
+                            <TableCell>{user.username}</TableCell>
+                            <TableCell>{user.email}</TableCell>
+                            <TableCell>{user.phone}</TableCell>
+                            <TableCell>
+                                <Button variant="contained" style={{marginRight: 10}} component={Link} to={`/EditUser/${user.id}`} >Edit</Button>
+                                {/* <Button variant="contained" color="error" onClick={() => deleteUserData(user.id)} >Delete</Button> */}
+                                <Button variant="contained" color="error" onClick={() => handleDeleteClick(user)} >Delete</Button>
+                            </TableCell>
+                        </TBody>
+                    ))
+                }
+            </TableBody>
+        </StyledTable>
+      )}
+      {!isAuthenticated && (
+          <Typography variant="h4">Eseguire il login!!!</Typography>
+      )}
+      
+      <DeleteConfirmationModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={handleConfirmDelete}
+          recordName={`Id: ${selectedRecord?.id} with email: ${selectedRecord?.email}`}
+      /> 
+
+    </>
+  );
 }
 
 export default AllUsers;
