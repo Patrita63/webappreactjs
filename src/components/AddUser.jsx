@@ -157,22 +157,22 @@ const AddUser = () => {
                 )}
                 {isAuthenticated && (
                     <Controller
-                    name="phone"
-                    control={control}
-                    rules={{
-                        required: 'Phone is required',
-                        pattern: {
-                        value: /^[0-9]+$/,
-                        message: 'Enter a valid phone number',
-                        },
-                    }}
-                    render={({ field }) => (
-                        <FormControl fullWidth error={!!errors.phone}>
-                        <InputLabel htmlFor="phone">Phone</InputLabel>
-                        <Input {...field} id="phone" />
-                        <FormHelperText>{errors.phone?.message}</FormHelperText>
-                        </FormControl>
-                    )}
+                        name="phone"
+                        control={control}
+                        rules={{
+                            required: 'Phone is required',
+                            pattern: {
+                            value: /^[0-9]+$/,
+                            message: 'Enter a valid phone number',
+                            },
+                        }}
+                        render={({ field }) => (
+                            <FormControl fullWidth error={!!errors.phone}>
+                            <InputLabel htmlFor="phone">Phone</InputLabel>
+                            <Input {...field} id="phone" />
+                            <FormHelperText>{errors.phone?.message}</FormHelperText>
+                            </FormControl>
+                        )}
                     />
                 )}
                 {isAuthenticated && (
