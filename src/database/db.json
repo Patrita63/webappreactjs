@@ -39,11 +39,11 @@
   "registeredUsers": [
     {
       "id": "8463",
-      "name": "Patrizio Tardiolo Bonifazi",
-      "surname": "patrita63",
-      "email": "p.tardiolobonifazi@vivasoft.it",
-      "password": "Viva",
-      "address": "Via Roma"
+      "Name": "Patrizio Tardiolo Bonifazi",
+      "Surname": "patrita63",
+      "Email": "p.tardiolobonifazi@vivasoft.it",
+      "Password": "Viva",
+      "Address": "Via Roma"
     },
     {
       "id": "cda0",

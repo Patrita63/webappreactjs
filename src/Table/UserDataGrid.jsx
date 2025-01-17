@@ -106,7 +106,7 @@ const UserDataGrid = () => {
         // { field: 'id', headerName: 'ID', width: 70 },
         { field: 'name', headerName: 'Name', width: 150 },
         { field: 'username', headerName: 'Username', width: 120 },
-        { field: 'email', headerName: 'Email', width: 200 },
+        { field: 'email', headerName: 'Email', width: 230 },
         { field: 'street', headerName: 'Street', width: 150 },
         { field: 'city', headerName: 'City', width: 130 },
         { field: 'zipcode', headerName: 'Zipcode', width: 100 },
@@ -114,8 +114,16 @@ const UserDataGrid = () => {
         { field: 'lng', headerName: 'Longitude', width: 100, sortable: false },
         { field: 'phone', headerName: 'Phone', width: 180, sortable: false },
         // { field: 'website', headerName: 'Website', width: 150, sortable: false },
-        { field: 'company', headerName: 'Company', width: 150 },
+        { field: 'company', headerName: 'Company', width: 190 },
     ];
+
+    // Calculate DataGrid height
+    const rowHeight = 52; // Default row height
+    const headerHeight = 56;
+    const footerHeight = 70; // Footer for pagination
+    const gridHeight = rows.length * rowHeight + headerHeight + footerHeight;
+    // Apply the Dynamic Height
+    // Pass the calculated height as the style property to the container wrapping the DataGrid
 
     return(
         <>
@@ -157,7 +165,7 @@ const UserDataGrid = () => {
               <p>API URL: {config.apiUrlTypicode} - Environment: {config.environment}</p>
         </Stack>
 
-        <Box sx={{ height: 500, width: '100%' }}>
+        <Box sx={{ height: gridHeight, width: '95%' }}>
             <h2>User Data with Pagination</h2>
             <DataGrid
                 rows={rows}
