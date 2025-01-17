@@ -116,7 +116,7 @@ const AllUsers = () => {
   const handleConfirmDelete = () => {
       setIsModalOpen(false);
       deleteUserData(selectedRecord?.id);
-      console.log(`Record ${selectedRecord} deleted`);
+      console.log(`Record ${selectedRecord} deleted by ${username}`);
       setSelectedRecord(null);
   }
 

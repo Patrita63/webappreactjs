@@ -1,49 +1,5 @@
 {
-  "registeredUsers": [
-    {
-      "id": "8463",
-      "name": "Patrizio Tardiolo Bonifazi",
-      "surname": "patrita63",
-      "email": "p.tardiolobonifazi@vivasoft.it",
-      "password": "Viva",
-      "address": "Via Roma"
-    },
-    {
-      "id": "b649",
-      "Name": "Patrizio",
-      "Surname": "Tardiolo Bonifazi",
-      "Email": "p.tardiolobonifazi1@vivasoft.it",
-      "Password": "Viva",
-      "ConfirmPassword": "Viva",
-      "Address": "Via Copenaghen 10 1b"
-    },
-    {
-      "id": "cf6c",
-      "Name": "",
-      "Surname": "",
-      "Email": "",
-      "Password": "",
-      "ConfirmPassword": "",
-      "Address": ""
-    },
-    {
-      "id": "4612",
-      "Name": "",
-      "Surname": "",
-      "Email": "",
-      "Password": "",
-      "ConfirmPassword": "",
-      "Address": ""
-    }
-  ],
   "users": [
-    {
-      "id": "055a",
-      "name": "Patrizio Tardiolo Bonifazi",
-      "username": "patrita63",
-      "email": "p.tardiolobonifazi@vivasoft.it",
-      "phone": "3482350751"
-    },
     {
       "id": "e3b6",
       "name": "Mario Rossi",
@@ -59,11 +15,44 @@
       "phone": "1234567"
     },
     {
-      "id": "aa55",
-      "name": "Giovanni Bianchi",
-      "username": "Bianchi",
-      "email": "gbianchi@acme.com",
-      "phone": "1233445"
+      "id": "dcb9",
+      "name": "Giuseppe",
+      "username": " Verdini",
+      "email": "g.verdini@vivasoft.it",
+      "phone": "34824567"
+    },
+    {
+      "id": "184a",
+      "name": "Patrizio",
+      "username": "Tardiolo Bonifazi",
+      "email": "p.tardiolobonifazi@vivasoft.it",
+      "phone": "3482350751"
+    },
+    {
+      "id": "6759",
+      "name": "Patrizio",
+      "username": "Rossi",
+      "email": "patriata@gmail.cin",
+      "phone": "67777"
+    }
+  ],
+  "registeredUsers": [
+    {
+      "id": "8463",
+      "name": "Patrizio Tardiolo Bonifazi",
+      "surname": "patrita63",
+      "email": "p.tardiolobonifazi@vivasoft.it",
+      "password": "Viva",
+      "address": "Via Roma"
+    },
+    {
+      "id": "cda0",
+      "Name": "Maria Clara",
+      "Surname": "Colletti",
+      "Email": "mclaracolletti@studiolegalecolletti.it",
+      "Password": "Viva",
+      "ConfirmPassword": "Viva",
+      "Address": "Via Copenaghen, 10"
     }
   ],
   "products": [

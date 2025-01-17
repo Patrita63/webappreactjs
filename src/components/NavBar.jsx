@@ -136,11 +136,9 @@ const NavBar = () => {
                         All Users Pagination
                         </Link> */}
                     </MenuItem>
-                    {/* <MenuItem onClick={handleMenuClose}>
-                        <Link href="/intranet/allusers" passHref>
-                        Utenti ...
-                        </Link>
-                    </MenuItem> */}
+                    <MenuItem onClick={handleMenuClose}>
+                        <TabNavLink to="/PostsFromTypicodePagination">All Posts Pagination</TabNavLink>
+                    </MenuItem>
                     </>
                     )}
                 </Menu>

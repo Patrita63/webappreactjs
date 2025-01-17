@@ -1,0 +1,8 @@
+/* fieldhidden.Module.css */
+[data-field="id"] {
+    display: none; /* Hides the column with field 'id' */
+}
+
+[data-field="website"] {
+    display: none; /* Hides the column with field 'website' */
+}

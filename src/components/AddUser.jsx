@@ -1,15 +1,12 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+// import { useState } from 'react';
 import { FormControl, FormGroup, InputLabel, Typography, Input, Button, styled, FormHelperText } from '@mui/material';
-// Validation - added FormHelperText
-// Validation - npm install react-hook-form
+
 import { useForm, Controller } from 'react-hook-form';
 
 import { addUser, checkUserByEmailExists } from "../service/api";
 
-import { useNavigate, Link } from 'react-router-dom';
-
-import Cookies from "js-cookie";
+import { useNavigate } from 'react-router-dom';
 
 const UserContainer = styled(FormGroup)`
     width: 50%;
@@ -25,28 +22,10 @@ const initialValues = {
 };
 
 const AddUser = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [username, setUsername] = useState('');
-
     // const [user, setUser] = useState(initialValues);
 
     const navigate = useNavigate();
 
-    // Stops Checking When Component Unmounts (clearInterval)
-    useEffect(() => {
-        const checkAuth = () => {
-            const auth = Cookies.get("isAuthenticated") === "true"; // Convert to boolean
-            const user = Cookies.get("username");
-            setIsAuthenticated(auth);
-            setUsername(user || "");
-        };
-
-        checkAuth(); // Run once when component mounts
-
-        const interval = setInterval(checkAuth, 1000); // Check cookies every second
-
-        return () => clearInterval(interval); // Cleanup on unmount
-    }, []);
 
     // Validation
     const { handleSubmit, control, watch, formState: { errors } } = useForm({
@@ -55,7 +34,7 @@ const AddUser = () => {
 
     // Validation
     const onSubmit = async (data) => {
-        // debugger;
+        debugger;
         console.log('Form Data:', data);
         const alreadyExist = await checkUserByEmailExists(data.email);
         if(!alreadyExist) {
@@ -75,13 +54,11 @@ const AddUser = () => {
         watchAllFields.username &&
         watchAllFields.email &&
         watchAllFields.phone &&
-        !errors.role && // No errors on role
         !errors.name && // No errors on name
         !errors.username && // No errors on username
         !errors.email && // No errors on email
         !errors.phone && // No errors on phone
         Object.keys(errors).length === 0;
-        // console.log('errors.role: ' + errors.role);
         // console.log('isValid: ' + isValid);
         return (
             isValid
@@ -102,12 +79,10 @@ const AddUser = () => {
     };
 
     return (
-        <UserContainer>
-            {isAuthenticated && (
+        <>
+            <UserContainer>
                 <Typography variant="h4">Add User</Typography>
-            )}
-            <form onSubmit={handleSubmit(onSubmit)}>
-                {isAuthenticated && (
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <Controller 
                         name="name"
                         control={control}
@@ -120,22 +95,18 @@ const AddUser = () => {
                             </FormControl>
                         )}
                     />
-                )}
-                {isAuthenticated && (
-                    <Controller
+                    <Controller 
                         name="username"
                         control={control}
                         rules={{ required: 'Username is required' }}
                         render={({ field }) => (
                             <FormControl fullWidth error={!!errors.username}>
-                            <InputLabel htmlFor="username">Username</InputLabel>
-                            <Input {...field} id="username" />
-                            <FormHelperText>{errors.username?.message}</FormHelperText>
+                                <InputLabel htmlFor="username">Username</InputLabel>
+                                <Input {...field} id="username" />
+                                <FormHelperText>{errors.username?.message}</FormHelperText>
                             </FormControl>
                         )}
                     />
-                )}
-                {isAuthenticated && (
                     <Controller
                         name="email"
                         control={control}
@@ -148,14 +119,12 @@ const AddUser = () => {
                         }}
                         render={({ field }) => (
                             <FormControl fullWidth error={!!errors.email}>
-                            <InputLabel htmlFor="email">Email</InputLabel>
-                            <Input {...field} id="email" />
-                            <FormHelperText>{errors.email?.message}</FormHelperText>
+                                <InputLabel htmlFor="email">Email</InputLabel>
+                                <Input {...field} id="email" />
+                                <FormHelperText>{errors.email?.message}</FormHelperText>
                             </FormControl>
                         )}
                     />
-                )}
-                {isAuthenticated && (
                     <Controller
                         name="phone"
                         control={control}
@@ -174,26 +143,19 @@ const AddUser = () => {
                             </FormControl>
                         )}
                     />
-                )}
-                {isAuthenticated && (
-                    <Button
+                    
+                    <Button 
                         type="submit"
                         variant="contained"
                         color="primary"
                         sx={{ mt: 2 }}
-                        disabled={!isFormValid()} // Button is disabled if the form is invalid
-                        >
-                        Add User
+                        disabled={!isFormValid()}
+                        >Add User
                     </Button>
-                )}
-                {isAuthenticated && (
-                    <Button variant="contained" style={{marginLeft: 590, marginTop:20}} component={Link} to={`/AllUsers`} >Back</Button>
-                )}
-            </form>
-            {!isAuthenticated && (
-                <Typography variant="h4">Eseguire il login!!!</Typography>
-            )}
-        </UserContainer>
+                    
+                </form>
+            </UserContainer>
+        </>
     );
 }
 

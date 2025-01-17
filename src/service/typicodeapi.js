@@ -50,3 +50,27 @@ export const getTypicodePosts = async () => {
         console.log("Error while calling getTypicodePosts API: ", error.message);
     }
 };
+
+
+export const getTypicodePostsPagination = async (curPage, currPageSize) => {
+    const environment = process.env.REACT_APP_ENVIRONMENT;
+    console.log("getTypicodePostsPagination environment: ", environment);
+    const apiUrl = process.env.REACT_APP_TYPICODE_API_URL;
+    // ;
+    try {
+        const response = await axios.get(apiUrl + API_URL_POSTS);
+        // Prima far vedere la response da Developers tools
+
+        // Save data to localStorage
+        localStorage.setItem('userData', JSON.stringify(response.data));
+
+        // Since jsonplaceholder.typicode.com doesn't support server-side pagination, I used slicing (data.slice(start, end)) to simulate it.
+        // Vedere src\Table\DataGrid.jsx
+        console.log('getTypicodePostsPagination: CurrentPage = ' + curPage + ' - CurrentPageSize = ' + currPageSize);
+        // Altrimenti vanno in errore ...
+
+        return response;
+    } catch (error){
+        console.log("Error while calling getTypicodePostsPagination API: ", error.message);
+    }
+}

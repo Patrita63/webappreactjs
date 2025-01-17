@@ -38,6 +38,7 @@ const Login = () => {
       const formData = new FormData();
       formData.set('Username', email);
       formData.set('Password', password);
+      debugger;
 
       const isRegistered = await checkRegisteredUser(email, password);
       console.log('handleLogin - isRegistered: ' + isRegistered);

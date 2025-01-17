@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Validation - npm install react-hook-form
@@ -11,7 +11,6 @@ import {
     Container,
     CssBaseline,
     Grid,
-    TextField,
     Typography,
     Input, FormControl, FormGroup, InputLabel,FormHelperText
 } from "@mui/material";
@@ -244,7 +243,7 @@ const Register = () => {
                                             render={({ field }) => (
                                                 <FormControl fullWidth error={!!errors.password}>
                                                 <InputLabel htmlFor="password">Password</InputLabel>
-                                                <Input {...field} id="password" />
+                                                <Input {...field} id="password" type="password" />
                                                 <FormHelperText>{errors.password?.message}</FormHelperText>
                                                 </FormControl>
                                             )}
@@ -270,7 +269,7 @@ const Register = () => {
                                             render={({ field }) => (
                                                 <FormControl fullWidth error={!!errors.confirmpassword}>
                                                 <InputLabel htmlFor="confirmpassword">Confirm Password</InputLabel>
-                                                <Input {...field} id="confirmpassword" />
+                                                <Input {...field} id="confirmpassword" type="password"  />
                                                 <FormHelperText>{errors.confirmpassword?.message}</FormHelperText>
                                                 </FormControl>
                                             )}

@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Stack, Box, Button } from '@mui/material';
+import { Stack, Box } from '@mui/material';
 
-import { getTypicodeUsers, getTypicodeUsersPagination } from '../service/typicodeapi';
+import { getTypicodeUsersPagination } from '../service/typicodeapi';
+
+/* fieldhidden.Module.css */
+// The [data-field="id"] selector specifically targets the id column in the DataGrid and hides it.
+import './fieldhidden.Module.css';
 
 // You can centralize the environment variables in a configuration file for better management.
 // Read from config.js that must be inside src folder
@@ -13,19 +17,16 @@ const UserDataGrid = () => {
 
     // PAGINATION
     const [loading, setLoading] = useState(false); // Loading state
-    // Material UI DataGrid has updated its pagination API in recent versions. The event handlers onPageChange and onPageSizeChange have been deprecated 
-    // and replaced with a unified paginationModel prop and onPaginationModelChange handler.
-    /* const [page, setPage] = useState(0); // Current page
-    const [pageSize, setPageSize] = useState(5); // Number of rows per page */
+
     const [paginationModel, setPaginationModel] = useState({
         page: 0,
         pageSize: 5,
     }); // Initialize pagination model
     const [rowCount, setRowCount] = useState(0); // Total row count (for pagination)
 
-
     // useEffect(() => {
     //     handleGetAllUsers();
+
     // }, []);
 
     // const handleGetAllUsers = async () => {
@@ -99,31 +100,30 @@ const UserDataGrid = () => {
         }
     };
     // console.log(tableData);
-    console.log(rows);
 
     // Define columns for the DataGrid
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
+        // { field: 'id', headerName: 'ID', width: 70 },
         { field: 'name', headerName: 'Name', width: 150 },
         { field: 'username', headerName: 'Username', width: 120 },
         { field: 'email', headerName: 'Email', width: 200 },
         { field: 'street', headerName: 'Street', width: 150 },
         { field: 'city', headerName: 'City', width: 130 },
         { field: 'zipcode', headerName: 'Zipcode', width: 100 },
-        { field: 'lat', headerName: 'Latitude', width: 100 },
-        { field: 'lng', headerName: 'Longitude', width: 100 },
-        { field: 'phone', headerName: 'Phone', width: 180 },
-        { field: 'website', headerName: 'Website', width: 150 },
+        { field: 'lat', headerName: 'Latitude', width: 100, sortable: false },
+        { field: 'lng', headerName: 'Longitude', width: 100, sortable: false },
+        { field: 'phone', headerName: 'Phone', width: 180, sortable: false },
+        // { field: 'website', headerName: 'Website', width: 150, sortable: false },
         { field: 'company', headerName: 'Company', width: 150 },
     ];
 
     return(
         <>
-        <Stack spacing={2} sx={{ width: 800 }} marginTop={ 5 } marginLeft={ 50 } >
+        {/* <Stack spacing={2} sx={{ width: 800 }} marginTop={ 5 } marginLeft={ 50 } >
               <h1>React App - {config.runtimeSettings.appname} - All Users from typicode</h1>
               <p>Version: {config.runtimeSettings.version}</p>
               <p>API URL: {config.apiUrlTypicode} - Environment: {config.environment}</p>
-        </Stack>
+        </Stack> */}
 
         {/* {!rows && (
         <Button
@@ -133,10 +133,32 @@ const UserDataGrid = () => {
         >
             Get all users
         </Button>
-        )} */}
+        )}
 
         <Box sx={{ height: 500, width: '100%' }}>
             <h2>User Data without Pagination</h2>
+            <DataGrid
+                rows={rows}
+                columns={columns}
+                // loading={loading}
+                pagination
+                paginationMode="server"
+                // rowCount={rowCount}
+                // paginationModel={paginationModel}
+                // onPaginationModelChange={(newModel) => setPaginationModel(newModel)}
+                pageSizeOptions={[5, 10, 20, 50, 100]}
+                checkboxSelection
+            />
+        </Box> */}
+
+        <Stack spacing={2} sx={{ width: 800 }} marginTop={ 5 } marginLeft={ 50 } >
+              <h1>React App - {config.runtimeSettings.appname} - All Users from typicode</h1>
+              <p>Version: {config.runtimeSettings.version}</p>
+              <p>API URL: {config.apiUrlTypicode} - Environment: {config.environment}</p>
+        </Stack>
+
+        <Box sx={{ height: 500, width: '100%' }}>
+            <h2>User Data with Pagination</h2>
             <DataGrid
                 rows={rows}
                 columns={columns}
@@ -147,10 +169,10 @@ const UserDataGrid = () => {
                 paginationModel={paginationModel}
                 onPaginationModelChange={(newModel) => setPaginationModel(newModel)}
                 pageSizeOptions={[5, 10, 20, 50, 100]} // Include the desired page sizes
-                checkboxSelection
+                // checkboxSelection
             />
         </Box>
-        </>
+        </> 
     );
 
 };

@@ -49,7 +49,7 @@ export const checkRegisteredUser = async (email, password) => {
     try {
         // Fetch the list of users from the JSON server
         const listAllUsers = await getRegisteredUsers();
-        // debugger;
+        debugger;
         
         // Check if the fetch request was successful
         if (listAllUsers.statusText !== "OK") {
@@ -57,7 +57,7 @@ export const checkRegisteredUser = async (email, password) => {
         }
 
         // Check if exist a user with that email and password
-        const userRegisterd = listAllUsers.data.some(user => user.email === email && user.password === password);
+        const userRegisterd = listAllUsers.data.some(user => user.Email === email && user.Password === password);
 
         return userRegisterd; // Returns true if user is registerd, false otherwise
     } catch (error) {
